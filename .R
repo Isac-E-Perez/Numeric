@@ -1,3 +1,3 @@
-.gitattributes
+#.gitattributes
 
-to not this is R
+#to note this is R
