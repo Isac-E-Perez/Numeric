@@ -7,7 +7,16 @@ For this project, I implemented an application using Shiny-R. I used shiny to bu
 
 First, I  created the UI (User Interface) for the shiny application with a *fluidPage* layout.
 
-![Screen Shot 2021-11-02 at 3 20 10 PM](https://user-images.githubusercontent.com/89553126/139946316-10a285af-3ab5-4487-849b-1b445f25b9fe.png)
+```R
+library(shiny)
+ui <- fluidPage(
+  sliderInput("x", "If x is", min = 1, max = 50, value = 30),
+  sliderInput("y", "and y is", min = 1, max = 50, value = 5),
+  "then, (x * y) is", textOutput("product"),
+  "and, (x * y) + 5 is", textOutput("product_plus5"),
+  "and (x * y) + 10 is", textOutput("product_plus10")
+)
+```
 
 The UI is similar to the ingredients in a recipe. So lets list out the ingredients and what they do.
 
@@ -17,7 +26,30 @@ The UI is similar to the ingredients in a recipe. So lets list out the ingredien
 
 Now lets focus on the server. The server is the directions in the recipe. The ingredients will be used as the directions describes them.
 
-![Screen Shot 2021-11-02 at 3 20 28 PM](https://user-images.githubusercontent.com/89553126/139946324-6bcd553c-4568-48bb-9bca-580610c28f00.png)
+```R
+server <- function(input, output, session) {
+  
+  # create a reactive expression
+  
+  product <- reactive({
+    input$x * input$y
+  })
+  
+  output$product <- renderText({ 
+    
+    product()
+  })
+  output$product_plus5 <- renderText({ 
+    
+    product() + 5
+  })
+  output$product_plus10 <- renderText({ 
+  
+    product() + 10
+  })
+}
+shinyApp(ui, server)
+```
 
 So lets list out the directions and what they do.
 
